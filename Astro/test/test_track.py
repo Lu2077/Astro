@@ -5,7 +5,7 @@ from skyfield.iokit import parse_tle_file
 ts = load.timescale()
 
 ruta_test = os.path.dirname(os.path.abspath(__file__))
-ruta_archivo = os.path.join(ruta_test, 'starlink.tle')
+ruta_archivo = os.path.join(ruta_test, 'stations.tle')
 
 
 if os.path.exists(ruta_archivo):
