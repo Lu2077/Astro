@@ -1,0 +1,35 @@
+# Python ️️✅️
+env/
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+
+# Variables secretas
+.env
+.env.*
+!.env.example
+
+#-------------------quitar--⛔eventualmente-----------------
+# Bases SQLite locales
+*.db
+*.sqlite
+*.sqlite3
+#-------------------------------------------------------------️
+
+# Node / Astro
+node_modules/
+dist/
+.astro/
+
+# SQLite: datos locales, no código
+data/*.sqlite3
+data/*.db
+
+# Python
+__pycache__/
+*.py[cod]
+
+# .idea
+
+.idea/
