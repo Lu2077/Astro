@@ -8,10 +8,11 @@
 
 ## 🚀 Características Principales
 
-*   **Seguimiento Preciso:** Cálculo de órbitas usando datos actualizados.
-*   **Geolocalización Automática:** Detecta tu ciudad y coordenadas para un escaneo exacto.
-*   **Predicción de Pasos:** Averigua cuántos satélites pasarán sobre tu ubicación en un radio personalizado.
-*   **Fácil Integración:** Diseñado con una interfaz limpia y herramientas listas para usar en Python.
+*   **Seguimiento Preciso:** Cálculo de órbitas usando datos actualizados. 🏗
+*   **Geolocalización Automática:** Detecta tu ciudad y coordenadas para un escaneo exacto. ✅
+*   **Predicción de Pasos:** Averigua cuántos satélites pasarán sobre tu ubicación en un radio personalizado. ✅
+*   **Predicción de Pasos:** Estima la luminosidad de los satelites detectados 🏗
+*   **Fácil Integración:** Diseñado con una interfaz limpia y herramientas listas para usar en Python. 🏗
 
 ---
 
