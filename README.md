@@ -12,7 +12,7 @@
 
 Prior to the implementation of machine learning models for orbit prediction, the modules are being developed separately.
 
-The core modules are allow the following tasks to be performed independently:
+The core modules allow the following tasks to be performed independently:
 
 *   **Object Tracking on Low Earth Orbit (LEO):** 
 Calculation of the relative radial velocity from a coordinated observation point to a captured satellite belonging to a satellite constellation. 
