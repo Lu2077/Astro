@@ -6,16 +6,16 @@
 
 ---
 
-## 🚀 Current state of the project
+##  Current state of the project
 
 *   **Currently, Astro is in its initial functional version and is under active development.**
 * The core modules are separate, allowing the following tasks to be performed independently:
 
 *   **Object Tracking on Low Earth Orbit (LEO):** 
-Calculation of the relative radial velocity from a coordinated observation point to a captured satellite belonging to a satellite constellation. ✅
-*   **Data ingestion and processing:** Download of TLE data—the global standard for packaging and sharing orbital data for any object in space. ✅
-*   **Events ingestion:** Tracking of fixed and mobile events using astronomical coordinates and Astroquery. ✅
-*   **Satellite radio localization:** determines the presence and number of satellites in a constellation based on the observer's radius ✅
+Calculation of the relative radial velocity from a coordinated observation point to a captured satellite belonging to a satellite constellation. 
+*   **Data ingestion and processing:** Download of TLE data—the global standard for packaging and sharing orbital data for any object in space. 
+*   **Events ingestion:** Tracking of fixed and mobile events using astronomical coordinates and Astroquery. 
+*   **Satellite radio localization:** determines the presence and number of satellites in a constellation based on the observer's radius 
 ---
 
 *   **Future features and Roadmap:**
