@@ -9,7 +9,10 @@
 ##  Current state of the project
 
 *   **Currently, Astro is in its initial functional version and is under active development.**
-* The core modules are separate, allowing the following tasks to be performed independently:
+
+Prior to the implementation of machine learning models for orbit prediction, the modules are being developed separately.
+
+The core modules are allow the following tasks to be performed independently:
 
 *   **Object Tracking on Low Earth Orbit (LEO):** 
 Calculation of the relative radial velocity from a coordinated observation point to a captured satellite belonging to a satellite constellation. 
