@@ -1,4 +1,4 @@
-#!/home/ros2/Desktop/proyecto-Astro/Astro/env/bin/python3
+#!/home/ros2/Desktop/proyecto-Astro/Astro/env/bin/python
 # -*- coding: utf-8 -*-
 import re
 import sys

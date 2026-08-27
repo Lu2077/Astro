@@ -2,8 +2,8 @@ from skyfield.api import load
 import requests
 import os
 
-ruta_test = os.path.dirname(os.path.abspath(__file__))
-ruta_guardado = os.path.join(ruta_test, 'stations.tle')
+ruta = os.path.dirname(os.path.abspath(__file__))
+ruta_guardado = os.path.join(ruta, 'stations.tle')
 
 max_days = 7.0         # download again once 7 days old
 name = 'stations.tle'  # custom filename, not 'gp.php'
