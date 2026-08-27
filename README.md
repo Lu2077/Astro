@@ -77,7 +77,7 @@ Process finished with exit code 0
 </details>
 
 <details>
-<summary><b> Example 2:Captured satellite constellation, including ID, geoid-projected and linear distances, orbital altitude, and projected coordinates</b></summary>
+<summary><b> Example 2: Captured satellite constellation, including ID, geoid-projected and linear distances, orbital altitude, and projected coordinates</b></summary>
 
 ```text
 Coordenadas: -33.4569, -70.6483
