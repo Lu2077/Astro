@@ -77,10 +77,19 @@ if __name__ == "__main__":
     else:
         resultados = closest_satellites(satellites, max_distance_km=500)
 
-        print(f"\n Resultados: se encontraron"
-              f" {len(resultados)} satélites cerca de tí ahora mismo")
-        print(f"{'SATELITE':<30} | {'ALTURA ORBITAL':>5} | {'RANGO REAL':>5} | {'DISTANCIA SUB-PUNTO':>18} | {'COORDENADAS':<20}")
-        print("-" * 75)
+        print(f"\n Resultados: se encontraron {len(resultados)} satélites cerca de tí ahora mismo")
+
+
+        print(
+            f"{'SATELITE':<20} | {'ORBITAL ALTITUDE':<16} | {'ACTUAL DISTANCE':<14} | {'GROUND DISTANCE':<17} | {'COORDENADAS':<20}")
+        print("-" * 97)  # <- alinear para cubrir todo el ancho
 
         for s in resultados[:15]:
-            print(f"{s['nombre']:<30} | {s['altura_orbital']:>5} km | {s['rango_real']:>5} km | {s['distancia_subpunto']:>14.2f} km | {s['lat']:>7.3f}° , {s['lon']:>7.3f}° ")
+
+            altura = f"{s['altura_orbital']:.2f} km"
+            rango = f"{s['rango_real']:.2f} km"
+            subpunto = f"{s['distancia_subpunto']:.2f} km"
+            coords = f"{s['lat']:>7.3f}° , {s['lon']:>7.3f}°"
+
+
+            print(f"{s['nombre']:<20} | {altura:<16} | {rango:<15} | {subpunto:<17} | {coords:<20}")

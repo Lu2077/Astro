@@ -6,7 +6,6 @@ now = datetime.datetime.now()
 
 JD = Time(now).jd
 print(JD)
-
 """
 string_date = f"{now:%Y-%m-%d %H:%M:%S}"
 print(string_date)
@@ -30,12 +29,13 @@ JD = (C + (D + day_frac) + E + F - 1524.5)
 #using formula and
 #print(jd) where var => jd
 """
-
+alma_coords = {'lon': -67.7536, 'lat': -23.0292, 'elevation': 5.076}
 
 obj = Horizons(
     id='ceres',
-    location='568',
-    epochs=JD
+    location=alma_coords,
+    epochs=JD,
+    id_type='smallbody'
 )
 
 efem = obj.ephemerides()

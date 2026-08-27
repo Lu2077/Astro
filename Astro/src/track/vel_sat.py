@@ -73,11 +73,11 @@ def muestra(max_distance_km=200):
 
     return muestra
 
-primera = muestra(max_distance_km=100)
+primera = muestra(max_distance_km=200)
 print(f"primera muestra: {len(primera)} satélites")
 time.sleep(10)
 
-segunda = muestra(max_distance_km=100)
+segunda = muestra(max_distance_km=200)
 print(f"Segunda muestra: {len(segunda)} satélites\n")
 
 for norad_id, actual in segunda.items():
