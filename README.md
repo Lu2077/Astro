@@ -19,10 +19,12 @@ Calculation of the relative radial velocity from a coordinated observation point
 ---
 
 *   **Future features and Roadmap:**
+*   **Automation:** Set the setup to bring the modules  
+*   **Tests:** Improve test suite logic trough pytest fixture 
 *   **Trajectory calculation:** Reliably estimate orbital trajectories | refinement of orbital trajectory errors
 *   **OD:** Improve the localization of captured objects using Earth-Centered Inertial (ECI) coordinates.
 *   **OP:** Predict the object's location using Earth-Centered, Earth-Fixed (ECEF) coordinates (ITRF/WGS84)
-*   **Tests:** Improve test suite logic trough pytest fixture 
+
 
 ---
 
