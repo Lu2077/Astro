@@ -43,6 +43,7 @@ In general, $p < n$ and $m = p \times \ell \gg n$. The formulation represented b
 Then: our Data Base will provide $\mathbf{a})$ epochs or sets of observation, and
                                  $\mathbf{b})$ will provide observation errors ${\epsilon}_i$ to correct and get the trajectories of our captured satellites.
 
+![Antenas ALMA](docs/dbrowse.png)
 
 ---
 
