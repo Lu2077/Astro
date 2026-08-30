@@ -22,17 +22,24 @@ Calculation of the relative radial velocity from a coordinated observation point
 *   **DataBases:** implementing Bata Bases
 
 From chapter 4 - 4.2 - The role of the measurement model in introducing nonlinearity to the process was described. 
-In the general orbit determination problem, both the dynamics and the measurements involve significant nonlinear relationships. For the general case, the governing relations involve the nonlinear expression.
+In the general orbit determination problem, both the dynamics and the measurements involve significant nonlinear relationships. For the general case, the governing relations involve the nonlinear **expression**:
+
 $$
-\dot{\mathbf{X}} = F(\mathbf{X}, t), \quad \mathbf{X}(t_k) \equiv \mathbf{X}_k \tag{4.2.1}
+\begin{matrix} \dot{\mathbf{X}} = F(\mathbf{X}, t), & \mathbf{X}(t_k) \equiv \mathbf{X}_k & \text{(4.2.1)} \end{matrix}
 $$
+
 $$
-\mathbf{Y}_i = G(\mathbf{X}_i, t_i) + {\epsilon}_i; \quad i = 1, \dots, \ell \tag{4.2.2}
+\begin{matrix} \mathbf{Y}_i = G(\mathbf{X}_i, t_i) + \epsilon_i; & i = 1, \dots, \ell & \text{(4.2.2)} \end{matrix}
 $$
-where $\mathbf{X}_k$ is the unknown $n$-dimensional state vector at the time $t_k$, and
-$\mathbf{Y}_i$ for $i = 1, \dots, \ell$, is a $p$-dimensional set of observations that are to be used to obtain a best estimate of the unknown value of $\mathbf{X}_k$ (i.e., $\hat{\mathbf{X}}_k$). 
+
+
+**where:**
+$\mathbf{X}_k$ is the unknown $n$-dimensional state vector at the time $t_k$, and
+$\mathbf{Y}_i$ for $i = 1, \dots, \ell$, is a $p$-dimensional set of observations that are to be used to obtain a best estimate of the unknown value of $\mathbf{X}_k$ (i.e., $\hat{\mathbf{X}}_k$).
+
 In general, $p < n$ and $m = p \times \ell \gg n$. The formulation represented by Eqs. (4.2.1) and (4.2.2) is characterized by: (1) the inability to observe the state directly, (2) nonlinear relations between the observations and the state,
 (3) fewer observations at any time epoch than there are state vector components ($p < n$), and (4) errors in the observations represented by ${\epsilon}_i$.
+
 Then: our Data Base will provide $\mathbf{a})$ epochs or sets of observation, and
                                  $\mathbf{b})$ will provide observation errors ${\epsilon}_i$ to correct and get the trajectories of our captured satellites.
 
