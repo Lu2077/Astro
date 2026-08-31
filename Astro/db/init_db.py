@@ -14,11 +14,6 @@ def inicializar_base_de_datos():
     conn = sqlite3.connect(db_path)
     cursor = conn.cursor()
 
-    # 2. Borrar tablas viejas si existen para limpiar pruebas pasadas
-    cursor.execute("DROP TABLE IF EXISTS observation_errors;")
-    cursor.execute("DROP TABLE IF EXISTS satellite_observations;")
-    cursor.execute("DROP TABLE IF EXISTS satellite_tles;")
-
     # 3. Crear la tabla histórica para procesar TLEs (Aquí vivirán starlink.tle y stations.tle)
     print("Creando tabla satellite_tles...")
     cursor.execute("""
