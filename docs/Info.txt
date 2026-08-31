@@ -1,0 +1,10 @@
+Flujo BasesdeDatos - Falta Automatizar!!
+
+~/Desktop/proyecto-Astro/Astro$ python3 Astro/src/apis/celes_trak.py
+
+~/Desktop/proyecto-Astro/Astro$ export PYTHONPATH=$PYTHONPATH:$(pwd)
+
+~/Desktop/proyecto-Astro/Astro$ python3 Astro/src/apis/celes_trak.py
+
+~/Desktop/proyecto-Astro/Astro$ sqlitebrowser data/astro.sqlite3
+
