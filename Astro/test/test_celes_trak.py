@@ -1,26 +1,20 @@
-from skyfield.api import load
-import requests
+# Astro/test/test_celes_trak.py
 import os
+from unittest.mock import patch, mock_open
+from src.apis.celes_trak import descargar_starlink_tle
 
-ruta_test = os.path.dirname(os.path.abspath(__file__))
-ruta_guardado = os.path.join(ruta_test, 'stations.tle')
 
-max_days = 7.0         # download again once 7 days old
-name = 'stations.tle'  # custom filename, not 'gp.php'
+@patch('requests.get')
+def test_descargar_starlink_tle_exitoso(mock_get):
+    """Prueba que si Celestrak responde 200, la función retorna True y guarda."""
+    # 1. Simulamos que Celestrak responde con éxito y nos da un TLE falso de Starlink
+    mock_get.return_value.status_code = 200
+    mock_get.return_value.text = "STARLINK-36048\n1 67547U...\n2 67547..."
 
-base = 'https://celestrak.org/NORAD/elements/gp.php'
-url = base + '?GROUP=stations&FORMAT=tle'
-response = requests.get(url)
+    # 2. Ejecutamos la función apuntando a un archivo temporal simulado
+    with patch("builtins.open", mock_open()) as mocked_file:
+        resultado = descargar_starlink_tle("fake_path/starlink.tle")
 
-print("descargando TLEs desde Celestrak...")
-
-if response.status_code == 200:
-
-    with open(ruta_guardado, 'w', encoding='utf-8') as f:
-        f.write(response.text)
-    print(f"Archivo descargado con éxito en: {ruta_guardado}")
-else:
-    print(f"Error al descargar: Código de estado {response.status_code}")
-
-if not load.exists(name) or load.days_old(name) >= max_days:
-    load.download(url, filename=name)
+        # 3. Verificaciones de Pytest (Asserts)
+        assert resultado is True
+        mocked_file.assert_called_once_with("fake_path/starlink.tle", 'w', encoding='utf-8')
