@@ -8,3 +8,20 @@ Flujo BasesdeDatos - Falta Automatizar!!
 
 ~/Desktop/proyecto-Astro/Astro$ sqlitebrowser data/astro.sqlite3
 
+-----------------
+
+deb@dev:~/Desktop/proyecto-astro/Astro$ source venv/bin/activate
+
+((venv) ) deb@dev:~/Desktop/proyecto-astro/Astro$ export PYTHONPATH=$PYTHONPATH:$(pwd)
+((venv) ) deb@dev:~/Desktop/proyecto-astro/Astro$ python3 Astro/src/apis/celes_starlink.py
+Conectando con Celestrak para descargar la constelación de Starlink
+Descarga exitosa! Archivo guardado en /home/deb/Desktop/proyecto-astro/Astro/Astro/src/apis/starlink.tle
+ Se descargaron aproximadamente 10721 satélites Starlink.
+
+((venv) ) deb@dev:~/Desktop/proyecto-astro/Astro$ python3 Astro/src/apis/celes_trak.py
+Procesando e inyectando datos de: starlink.tle...
+Éxito: Se guardaron 10721 registros desde starlink.tle
+Procesando e inyectando datos de: stations.tle...
+Éxito: Se guardaron 21 registros desde stations.tle
+
+((venv) ) deb@dev:~/Desktop/proyecto-astro/Astro$
