@@ -1,0 +1,24 @@
+section.bg-img-responsive {
+  background-image: url("http://media.istockphoto.com/photos/mature-man-walking-dog-in-frosty-landscape-picture-id473423242?s=2048x2048");
+  background-repeat: no-repeat;
+  position: relative;
+  min-width: 100%;
+  min-height: 100vh;
+  background-position: center center;
+  display: table;
+}
+
+.jumbotron {
+  background-color: transparent;
+  display: table-cell;
+  vertical-align: middle;
+  text-align: center;
+  padding: 0px;
+  margin: 0px;
+}
+
+.container.tint {
+  padding: 1.5em;
+  background-color: rgba(255, 255, 255, 0.5);
+}
+

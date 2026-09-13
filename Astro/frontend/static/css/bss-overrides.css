@@ -1,0 +1,15 @@
+:root, [data-bs-theme=light] {
+  --bs-body-color: #3070b1;
+  --bs-body-color-rgb: 48,112,177;
+  --bs-secondary-color: rgba(48,112,177,0.75);
+  --bs-secondary-color-rgb: 48,112,177,0.75;
+  --bs-tertiary-color: rgba(48,112,177,0.5);
+  --bs-tertiary-color-rgb: 48,112,177,0.5;
+}
+
+[data-bs-theme=dark] {
+  --bs-link-color: #528de5;
+  --bs-link-color-rgb: 82,141,229;
+  --bs-focus-ring-opacity: 0.5;
+}
+
