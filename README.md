@@ -19,7 +19,7 @@ Calculation of the relative radial velocity from a coordinated observation point
 *   **Data ingestion and processing:** Download of TLE data—the global standard for packaging and sharing orbital data for any object in space. 
 *   **Events ingestion:** Tracking of fixed and mobile events using astronomical coordinates and Astroquery. 
 *   **Satellite radio localization:** determines the presence and number of satellites in a constellation based on the observer's radius 
-*   **DataBases:** implementing Bata Bases
+*   **DataBases:** implementing Data Bases
 
 From chapter 4 - 4.2 - The role of the measurement model in introducing nonlinearity to the process was described. 
 In the general orbit determination problem, both the dynamics and the measurements involve significant nonlinear relationships. For the general case, the governing relations involve the nonlinear **expression**:
