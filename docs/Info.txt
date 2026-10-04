@@ -25,3 +25,7 @@ Procesando e inyectando datos de: stations.tle...
 Éxito: Se guardaron 21 registros desde stations.tle
 
 ((venv) ) deb@dev:~/Desktop/proyecto-astro/Astro$
+
+python3 Astro/src/track/track.py
+
+python3 Astro/src/track/localization.py
