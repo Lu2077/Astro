@@ -32,4 +32,9 @@ __pycache__/
 
 # .idea
 
-.idea/
+.idea/.idea/
+env/
+Astro/.idea/
+Astro/env/
+# Pytest local cache
+.pytest_cache/

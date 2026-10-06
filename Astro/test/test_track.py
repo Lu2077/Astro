@@ -1,23 +1,14 @@
-import os
-from skyfield.api import load
-from skyfield.iokit import parse_tle_file
+# Astro/test/test_track.py
+import pytest
+from src.track.localization import closest_satellites
 
-ts = load.timescale()
+def test_closest_satellites_empty_list():
+    """Verifica que la función matemática maneje correctamente listas vacías."""
+    resultados = closest_satellites([], lat_observer=-33.4569, lon_observer=-70.6483, max_distance_km=500)
+    assert isinstance(resultados, list)
+    assert len(resultados) == 0
 
-ruta_test = os.path.dirname(os.path.abspath(__file__))
-ruta_archivo = os.path.join(ruta_test, 'starlink.tle')
-
-
-if os.path.exists(ruta_archivo):
-    with open(ruta_archivo, 'rb') as f:
-        satellites = list(parse_tle_file(f,ts))
-    print('Loaded',len(satellites), 'satellites')
-
-    if satellites:
-        print('Primer satélite en la lista: ',satellites[0].name)
-
-    else:
-        print(f"Error: no se encontró el archivo en {ruta_archivo}")
-
-if __name__ == '__main__':
-    print(f"[test_track.py] se han cargado {len(satellites)} satélites localmente")
+def test_closest_satellites_structure():
+    """Verifica que si la función no encuentra satélites, retorne una lista limpia."""
+    # Test rápido simulando comportamiento aislado sin inicializar Skyfield masivo
+    assert closest_satellites([], 0, 0) == []

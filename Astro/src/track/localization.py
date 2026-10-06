@@ -1,7 +1,7 @@
 import time
 import geocoder
 from skyfield.api import load, wgs84
-from track import charge_starlink_sats
+from .track import charge_starlink_sats
 
 print("Detectando tu ubicación actual...")
 
