@@ -2,9 +2,9 @@ name: Astro CI - Test Suite
 
 on:
   push:
-    branches: [ main ]
+    branches: [ "main" ]
   pull_request:
-    branches: [ main ]
+    branches: [ "main" ]
 
 jobs:
   test:
@@ -17,16 +17,18 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@v5
       with:
-        python-node-version: '3.11'
-        cache: 'pip'
+        python-version: '3.10' # Alineado con tu entorno local
 
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install -r Astro/requirements.txt
-        pip install pytest
+        # Forzar la instalación de tus librerías críticas de astronomía y APIs
+        pip install pytest fastapi httpx uvicorn geocoder skyfield astroquery astroplan pandas numpy
 
-    - name: Run Pytest
+    - name: Run Pytest Suite
+      env:
+        # Apuntamos el entorno a la carpeta donde están tus módulos de código reales
+        PYTHONPATH: ${{ github.workspace }}/Astro
       run: |
         cd Astro
-        PYTHONPATH=. pytest
+        pytest
