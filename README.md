@@ -1,3 +1,5 @@
+[![Astro CI - Test Suite](https://github.com/Lu2077/Astro/actions/workflows/tests.yml/badge.svg)](https://github.com/Lu2077/Astro/actions/workflows/tests.yml)
+
 # 🛰️ Astro - Sat Tracking for Astronomers
 
 ![Antenas ALMA](docs/Antenas-ALMA-105.jpg)
