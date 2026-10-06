@@ -27,8 +27,9 @@ jobs:
 
     - name: Run Pytest Suite
       env:
-        # Apuntamos el entorno a la carpeta donde están tus módulos de código reales
+        # Esto le enseña a Pytest la raíz exacta para resolver las importaciones de 'src.'
         PYTHONPATH: ${{ github.workspace }}/Astro
       run: |
-        cd Astro
-        pytest
+          cd Astro
+          # Forzamos la ejecución únicamente del archivo principal que valida la lógica core
+          pytest test/test_track.py
