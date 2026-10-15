@@ -5,17 +5,17 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
     <title>bootstrap-frontend</title>
-    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="assets/css/bss-overrides.css">
-    <link rel="stylesheet" href="assets/css/Footer-Clean-icons.css">
-    <link rel="stylesheet" href="assets/css/Navbar-Right-Links-icons.css">
-    <link rel="stylesheet" href="assets/css/NMDIG-Jumbotron-Advanced-Responsive-Tint-jumbotron-bg-responsive-tint.css">
-    <link rel="stylesheet" href="assets/css/NMDIG-Jumbotron-Advanced-Responsive-Tint.css">
+    <link rel="stylesheet" href="/static/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/css/bss-overrides.css">
+    <link rel="stylesheet" href="/static/css/Footer-Clean-icons.css">
+    <link rel="stylesheet" href="/static/css/Navbar-Right-Links-icons.css">
+    <link rel="stylesheet" href="/static/css/NMDIG-Jumbotron-Advanced-Responsive-Tint-jumbotron-bg-responsive-tint.css">
+    <link rel="stylesheet" href="/static/css/NMDIG-Jumbotron-Advanced-Responsive-Tint.css">
 </head>
 
 <body style="background: var(--bs-body-color);">
     <nav class="navbar navbar-expand-md bg-body py-3" style="background: var(--bs-link-color);">
-        <div class="container"><img src="assets/img/icon.png" width="92" height="85"><a class="navbar-brand d-flex align-items-center" href="#"><span>Astro</span></a><button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navcol-2"><span class="visually-hidden">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
+        <div class="container"><img src="/static/img/icon.png" width="92" height="85"><a class="navbar-brand d-flex align-items-center" href="#"><span>Astro</span></a><button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navcol-2"><span class="visually-hidden">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
             <div class="collapse navbar-collapse" id="navcol-2" style="align-self: auto;">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item"><a class="nav-link active" href="#">FAQ</a></li>
@@ -34,10 +34,17 @@
                 </div>
             </div>
             <div class="col-md-6 col-lg-3 col-xl-6" style="align-self: auto;">
-                <div class="m-xl-5 p-xl-5 style=&quot;max-width: 280px" style="background-color: white;border-radius: 20px;align-items: center;"><img class="img-fluid object-fit-cover rounded" style="min-height: 300px;align-self: center;" src="assets/img/Gemini_Generated_Image_nik2l4nik2l4nik2.jpeg" width="342" height="300"></div>
+                <div class="m-xl-5 p-xl-5" style="background-color: white; border-radius: 20px; align-items: center;"><img class="img-fluid object-fit-cover rounded" style="min-height: 300px;align-self: center;" src="/static/img/Gemini_Generated_Image_nik2l4nik2l4nik2.jpeg" width="342" height="300"></div>
             </div>
-            <div class="col">
-                <p class="d-flex"><span style="color: rgb(255, 255, 255);">Example:</span></p>
+            <div class="col" id="columna-radar">
+                <p class="d-flex mb-2"><span style="color: rgb(255, 255, 255); font-weight: bold;">Radar de Satélites:</span></p>
+            <!-- Button -->
+                <button onclick="escanearCielo()" class="btn btn-primary btn-sm w-100 mb-3">
+                </button>
+                <!-- Sat - List -->
+                <div id="lista-satelites" class="overflow-auto" style="max-height: 280px;">
+                    <p class="text-white-50 small">Presiona el botón para consultar los datos en tiempo real.</p>
+                </div>
             </div>
         </div>
     </div>
@@ -66,7 +73,64 @@
             </div>
         </div>
     </footer>
-    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="/static/bootstrap/js/bootstrap.min.js"></script>
 </body>
+
+    <!-- Bloque de control lógico de Astro -->
+    <script>
+    async function escanearCielo() {
+        const lista = document.getElementById('lista-satelites');
+
+        // Mensaje de carga intermedio mientras corre la matemática orbital en el backend
+        lista.innerHTML = '<p class="text-white-50 small font-monospace">Consultando base de datos y calculando pasos orbitales...</p>';
+
+        try {
+            // Hacemos la petición HTTP relativa a tu endpoint activo de FastAPI
+            // (Usa las coordenadas de Santiago que ya validamos en tu captura anterior)
+            const response = await fetch('/api/track/localization?lat=-33.4569&lon=-70.6483&radio_km=500');
+            const data = await response.json();
+
+            lista.innerHTML = '';
+
+            // Validación por si el array de satélites viene vacío
+            if (!data.satellites || data.satellites.length === 0) {
+                lista.innerHTML = '<p class="text-warning small">Cielo despejado. No hay satélites Starlink en este radio actualmente.</p>';
+                return;
+            }
+
+            // Construimos la lista estructurada mapeando el JSON de tu API
+            let htmlFilas = '<div class="list-group">';
+
+            data.satellites.forEach(sat => {
+                // Mapeamos las llaves según escupe tu JSON (ej: sat.name, sat.orbital_altitude)
+                //correcciones
+                const name = sat.nombre || sat.SATELITE || sat.satellite_name || 'STARLINK';
+                //correcciones
+                const alt = sat.altura_orbital ? sat.altura_orbitalwwwwwwwwwww : 'N/A';
+                //correcciones
+                const coords = (sat.lat && sat.lon) ? sat.lat.toFixed(4) + 'º , ' + sat.lon.toFixed(4) + 'º' : 'N/A';
+
+                htmlFilas += `
+                   <div class="p-2 border-bottom border-secondary small text-start text-white">
+                        <div class="d-flex w-100 justify-content-between">
+                            <span class="text-info fw-bold" style="color: #ffffff !important;">▶ ${name}</span>
+                            <span class="text-white-50 ms-2" style="font-size: 0.75rem;">Alt: ${alt} km</span>
+                        </div>
+                        <div class="text-muted font-monospace mt-1" style="font-size: 0.7rem; color: #a8a8a8 !important;">
+                            Pos: ${coords}
+                        </div>
+                    </div>`;
+            });
+
+            htmlFilas += '</div>';
+            lista.innerHTML = htmlFilas;
+
+        } catch (error) {
+            // Manejo de errores por si el backend se cae o la red falla
+            lista.innerHTML = '<p class="text-danger small">⚠️ Error de comunicación con la API de Astro.</p>';
+        }
+    }
+    </script>
+
 
 </html>
