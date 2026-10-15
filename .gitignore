@@ -11,10 +11,12 @@ __pycache__/
 !.env.example
 
 #-------------------quitar--⛔eventualmente-----------------
-# Bases SQLite locales
-*.db
-*.sqlite
-*.sqlite3
+# SQLite: datos locales, no código
+# Ignorar todo el contenido pesado y logs de la carpeta data
+data/pipeline.log
+data/sqlite3
+data/astro_REAL.sqlite3
+
 #-------------------------------------------------------------️
 
 # Node / Astro
@@ -23,9 +25,8 @@ dist/
 .astro/
 
 # SQLite: datos locales, no código
-data/
-data/*.sqlite3
-data/*.db
+# Ignorar todo el contenido pesado y logs de la carpeta data
+
 
 # Python
 __pycache__/
