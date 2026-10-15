@@ -4,7 +4,7 @@ from astroplan import observer
 from skyfield.api import load, wgs84
 from skyfield.elementslib import longitude_of_ascending_node
 
-from track import charge_starlink_sats
+from .track import charge_starlink_sats
 import geocoder
 
 satellites = charge_starlink_sats()

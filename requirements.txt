@@ -1,6 +1,7 @@
 annotated-doc==0.0.5
 annotated-types==0.8.0
 anyio==4.14.2
+astroplan==0.10.1
 astropy==6.1.7
 astropy-iers-data==0.2026.8.31.0.57.9
 astroquery==0.4.11
@@ -39,6 +40,7 @@ pydantic_core==2.46.4
 pyerfa==2.0.1.5
 Pygments==2.21.0
 pytest==9.1.1
+pytz==2026.5
 pyvo==1.9.1
 PyYAML==6.0.3
 ratelim==0.1.6
