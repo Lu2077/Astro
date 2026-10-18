@@ -106,3 +106,13 @@ for norad_id, actual in segunda.items():
         f"{state}: {abs(vel_rad_km_s):.3f} km/s | "
         f"elevación: {actual['elevation_deg']:.2f} degree | "
     )
+
+"""
+def sat_aporoaching(segundos_trascurridos):
+    segundos_transcurridos = float
+    while segundos_trascurridos:
+
+
+
+    return None
+"""

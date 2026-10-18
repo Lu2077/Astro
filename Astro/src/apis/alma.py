@@ -30,14 +30,14 @@ def ask_schedule_alma(start_date: str, end_date: str) -> list:
     # Tu consulta ADQL original bajo el modelo ObsCore
     query_adql = f"""
     SELECT TOP 10
-        target_name, s_ra, s_dec, s_fov, t_min, t_max, instrument_name
+    target_name, s_ra, s_dec, s_fov, t_min, t_max, s_region, instrument_name
     FROM
-        ivoa.obscore
+    ivoa.obscore
     WHERE
-        t_min >= {mjd_start} AND
-        t_max <= {mjd_end}
+    t_min >= {mjd_start} AND
+    t_max <= {mjd_end}
     ORDER BY
-        t_min ASC
+    t_min ASC
     """
 
     try:
@@ -59,6 +59,7 @@ def ask_schedule_alma(start_date: str, end_date: str) -> list:
                 "fov_deg": float(fila["s_fov"]) if fila["s_fov"] is not None else 1.0,
                 "t_start": float(fila["t_min"]),
                 "t_end": float(fila["t_max"]),
+                "s_region": str(fila["s_region"]),
                 "instrument_name": str(fila["instrument_name"])
             })
 

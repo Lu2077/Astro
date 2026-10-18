@@ -1,23 +1,3 @@
-#TODO
-"""
-RE-ORGANIZE THIS!
-satellites
-"""
-
-
-"""
-* - IMPORTACIONES
-
-** - CONFIG
-
-*** - LOG. NEGOCIO/FUNCIONES
-
-**** - APP FASTAPI
-
-***** - RUTAS BASE
-"""
-#======================IMPORTS=========================
-
 import sys
 import os
 import logging
@@ -40,6 +20,11 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse
 from fastapi.middleware.cors import CORSMiddleware
 
+#=========DB===================
+from pathlib import Path
+BASE_DIR = Path(__file__).resolve().parent
+DB_PATH = BASE_DIR / "data" / "astro.sqlite3"
+
 try:
     from src.routers.track_router import router as track_router
     from src.routers.localization_router import router as localization_router
@@ -61,6 +46,9 @@ from Astro.src.apis.eso import (
     ask_schedule_apex,
 )
 from Astro.src.config.observatories import OBSERVATORIES
+
+from Astro.src.sdk.back_tracking import back_track_fov
+
 """
 Normalization
 """
@@ -138,7 +126,14 @@ def obtener_alertas_fov(
 
         try:
             if provider == "alma":
-                eventos.extend(ask_schedule_alma(start_date, end_date))
+                eventos_alma = ask_schedule_alma(start_date, end_date)
+
+                for evento in eventos_alma:
+                    evento["t_min"] = evento.pop("t_start", None)
+                    evento["t_max"] = evento.pop("t_end", None)
+                    evento.setdefault("s_region", None)
+
+                eventos.extend(eventos_alma)
 
             elif provider == "eso":
                 funciones_eso = {
@@ -169,6 +164,8 @@ def obtener_alertas_fov(
                 evento_observatorio=evento,
             )
         )
+
+
 
     instrumentos = sorted({
         evento.get("instrument_name")
@@ -314,7 +311,52 @@ def get_alertas_fov(
 
 #======================NEW_MODULES=======================
 
-#TODO - CHECK DEPRECATED MAIN
+@app.get("/fov/backtracking-alma")
+def get_backtracking_alma(
+        start: str = Query("2026-10-17 00:00:00", description="Fecha inicio YYYY-MM-DD HH:MM:SS"),
+        end: str = Query("2026-10-17 12:00:00", description="Fecha fin YYYY-MM-DD HH:MM:SS"),
+):
+    nombre_observatorio = "alma"
+    config = OBSERVATORIES[nombre_observatorio]
+
+    # Declaramos satellites para alimentar la función de servicio y evitar NameErrors
+    satellites = calcular_posiciones_satelites(
+        fecha=start, lat_deg=config["lat_deg"], lon_deg=config["lon_deg"], alt_m=config["alt_m"],
+        constelacion="starlink"
+    )
+
+    # Obtenemos los metadatos base del servidor
+    resultado_servidor = obtener_alertas_fov(
+        start_date=start, end_date=end, observatorios=[nombre_observatorio], satellites=satellites
+    )
+
+    alertas_ssa_criticas = []
+
+    # Recorremos la muestra e inyectamos el escudo geométrico poligonal de ALMA
+    for evento in resultado_servidor.get("eventos_muestra", []):
+
+        # Sobreescribimos el s_region con tus 20 vértices validados para forzar el éxito del SDK geométrico
+        evento[
+            "s_region"] = "Polygon ICRS 261.172568 -38.923861 261.172796 -38.926670 261.171678 -38.929347 261.169372 -38.931515 261.167870 -38.932310 261.165620 -38.933003 261.162009 -38.933179 261.160236 -38.932871 261.158046 -38.932070 261.155409 -38.930143 261.153869 -38.927596 261.153642 -38.924787 261.154760 -38.922111 261.157066 -38.919943 261.158569 -38.919148 261.160818 -38.918455 261.164428 -38.918279 261.166772 -38.918747 261.168391 -38.919388 261.171028 -38.921315"
+
+        # Tu orquestador del SDK procesa la telemetría Doppler y el Ray-Casting
+        alertas_satelite = back_track_fov(
+            evento_alma=evento,
+            db_path=DB_PATH,  # Tu ruta absoluta unificada hacia JetBrains
+            step_hrs=1.0
+        )
+        if alertas_satelite:
+            alertas_ssa_criticas.extend(alertas_satelite)
+
+    # Tu bloque de retorno original intacto para renderizar en el frente
+    return {
+        "status": "ok",
+        "observatorio_evaluado": nombre_observatorio.upper() + " (SSA ENGINE)",
+        "eventos_astronomicos_analizados": len(resultado_servidor.get("eventos_muestra", [])),
+        "total_interferencias_satelitales": len(alertas_ssa_criticas),
+        "alertas": alertas_ssa_criticas
+    }
+    #TODO - CHECK DEPRECATED MAIN
 """
 # 1. FORZAR LAS RUTAS DE PYTHON (Debe ir en la línea 1 antes de los imports de src)
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))

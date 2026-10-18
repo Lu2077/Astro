@@ -25,29 +25,50 @@
             </div>
         </div>
     </nav>
+
     <div class="container py-4 py-xl-5">
         <div class="row gy-4 gy-md-0" style="align-content: center;">
+
+        <!-- COLUMNA 1: Información / Hero -->
             <div class="col-md-6 col-xl-4 text-center text-md-start d-flex d-sm-flex d-md-flex justify-content-center align-items-center justify-content-md-start align-items-md-center justify-content-xl-center">
                 <div style="max-width: 350px;">
                     <h2 class="text-uppercase fw-bold"><span style="color: rgb(245, 245, 245);">Astro</span></h2>
-                    <p class="my-3"><strong><span style="color: rgb(245, 245, 245);">Satellite track for astronomers, from orbital prediction to data analysis related to OEL sattelite track and observatory coordinates.</span></strong></p>
+                    <p class="my-3"><strong><span style="color: rgb(245, 245, 245);">Satellite track for astronomers, from orbital prediction to data analysis related to LEO satellite track and observatory coordinates.</span></strong></p>
                 </div>
             </div>
-            <div class="col-md-6 col-lg-3 col-xl-6" style="align-self: auto;">
-                <div class="m-xl-5 p-xl-5" style="background-color: white; border-radius: 20px; align-items: center;"><img class="img-fluid object-fit-cover rounded" style="min-height: 300px;align-self: center;" src="/static/img/Gemini_Generated_Image_nik2l4nik2l4nik2.jpeg" width="342" height="300"></div>
-            </div>
-            <div class="col" id="columna-radar">
-                <p class="d-flex mb-2"><span style="color: rgb(255, 255, 255); font-weight: bold;">Radar de Satélites:</span></p>
-            <!-- Button -->
-                <button onclick="escanearCielo()" class="btn btn-primary btn-sm w-100 mb-3">
-                </button>
-                <!-- Sat - List -->
-                <div id="lista-satelites" class="overflow-auto" style="max-height: 280px;">
-                    <p class="text-white-50 small">Presiona el botón para consultar los datos en tiempo real.</p>
+
+            <!-- COLUMNA 2: Telemetría Apilada en Filas (Radar + Velocidad) -->
+            <div class="col-md-12 col-lg-8">
+                <div class="d-flex flex-column gap-4">
+
+                    <!-- FILA 1: Caja del Radar -->
+                    <div class="p-4 rounded bg-dark text-white shadow-sm">
+                        <h5 class="fw-bold mb-3 text-white">Radar de Satélites:</h5>
+                        <!-- Botón corregido con el onclick directo -->
+                        <button id="btn-escanear" onclick="escanearCielo()" class="btn btn-primary btn-sm w-100 mb-3">
+                            Escanear Cielo
+                        </button>
+                        <div id="lista-satelites" class="overflow-auto" style="max-height: 200px;">
+                            <p class="text-white-50 small">Presiona para consultar datos.</p>
+                        </div>
+                    </div>
+
+                    <!-- FILA 2: Caja de Velocidad Radial -->
+                    <div class="p-4 rounded bg-dark text-white shadow-sm" id="caja-velocidad-contenedor">
+                        <h5 class="fw-bold mb-3 text-w">Velocidad Radial & Rangos:</h5>
+                        <div id="lista-velocidades" class="overflow-auto" style="max-height: 200px;">
+                            <p class="text-white-50 small">Esperando escaneo orbital...</p>
+                        </div>
+                    </div>
+
                 </div>
             </div>
+
         </div>
     </div>
+
+
+    <!-- FILA FOOTER -->
     <footer class="text-center bg-body ms-0 py-4">
         <div class="container">
             <div class="row row-cols-1 row-cols-lg-3">
@@ -73,64 +94,135 @@
             </div>
         </div>
     </footer>
+
+
     <script src="/static/bootstrap/js/bootstrap.min.js"></script>
-</body>
-
-    <!-- Bloque de control lógico de Astro -->
     <script>
-    async function escanearCielo() {
-        const lista = document.getElementById('lista-satelites');
+        // ============================================================
+        // 1. CONFIGURACIÓN Y CONSTANTES
+        // ============================================================
+        //const LAT = -33.4569;
+        //const LON = -70.6483;
+        const RADIO_KM = 500;
 
-        // Mensaje de carga intermedio mientras corre la matemática orbital en el backend
-        lista.innerHTML = '<p class="text-white-50 small font-monospace">Consultando base de datos y calculando pasos orbitales...</p>';
+        // ============================================================
+        // 2. MOTOR GENÉRICO DE LLAMADAS A LA API
+        // Maneja el spinner del botón y los errores automáticamente
+        // ============================================================
+        async function llamarAPI({ url, btnId, mensajeCargando, textoBotonCarga, renderExito }) {
+            const boton = document.getElementById(btnId);
+            const listaRadar = document.getElementById('lista-satelites');
+            const listaVelocidades = document.getElementById('lista-velocidades');
+            const htmlOriginalBoton = boton.innerHTML;
 
-        try {
-            // Hacemos la petición HTTP relativa a tu endpoint activo de FastAPI
-            // (Usa las coordenadas de Santiago que ya validamos en tu captura anterior)
-            const response = await fetch('/api/track/localization?lat=-33.4569&lon=-70.6483&radio_km=500');
-            const data = await response.json();
+            // Estado de carga
+            boton.disabled = true;
+            boton.innerHTML = `<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> ${textoBotonCarga}`;
 
-            lista.innerHTML = '';
+            if (listaRadar) listaRadar.innerHTML = `<p class="text-white-50 small font-monospace">${mensajeCargando}</p>`;
+            if (listaVelocidades) listaVelocidades.innerHTML = `<p class="text-white-50 small">Esperando datos...</p>`;
 
-            // Validación por si el array de satélites viene vacío
-            if (!data.satellites || data.satellites.length === 0) {
-                lista.innerHTML = '<p class="text-warning small">Cielo despejado. No hay satélites Starlink en este radio actualmente.</p>';
-                return;
+            try {
+                const respuesta = await fetch(url);
+                if (!respuesta.ok) throw new Error(`Error HTTP: ${respuesta.status}`);
+
+                const data = await respuesta.json();
+
+                // Ejecutamos la función de pintado
+                renderExito(data);
+
+            } catch (error) {
+                console.error('[Error API]', error);
+                if (listaRadar) listaRadar.innerHTML = `<p class="text-danger small">⚠️ Error de conexión: ${error.message}</p>`;
+                if (listaVelocidades) listaVelocidades.innerHTML = `<p class="text-danger small">⚠️ Error</p>`;
+            } finally {
+                // Restaurar botón siempre
+                boton.disabled = false;
+                boton.innerHTML = htmlOriginalBoton;
             }
-
-            // Construimos la lista estructurada mapeando el JSON de tu API
-            let htmlFilas = '<div class="list-group">';
-
-            data.satellites.forEach(sat => {
-                // Mapeamos las llaves según escupe tu JSON (ej: sat.name, sat.orbital_altitude)
-                //correcciones
-                const name = sat.nombre || sat.SATELITE || sat.satellite_name || 'STARLINK';
-                //correcciones
-                const alt = sat.altura_orbital ? sat.altura_orbitalwwwwwwwwwww : 'N/A';
-                //correcciones
-                const coords = (sat.lat && sat.lon) ? sat.lat.toFixed(4) + 'º , ' + sat.lon.toFixed(4) + 'º' : 'N/A';
-
-                htmlFilas += `
-                   <div class="p-2 border-bottom border-secondary small text-start text-white">
-                        <div class="d-flex w-100 justify-content-between">
-                            <span class="text-info fw-bold" style="color: #ffffff !important;">▶ ${name}</span>
-                            <span class="text-white-50 ms-2" style="font-size: 0.75rem;">Alt: ${alt} km</span>
-                        </div>
-                        <div class="text-muted font-monospace mt-1" style="font-size: 0.7rem; color: #a8a8a8 !important;">
-                            Pos: ${coords}
-                        </div>
-                    </div>`;
-            });
-
-            htmlFilas += '</div>';
-            lista.innerHTML = htmlFilas;
-
-        } catch (error) {
-            // Manejo de errores por si el backend se cae o la red falla
-            lista.innerHTML = '<p class="text-danger small">⚠️ Error de comunicación con la API de Astro.</p>';
         }
-    }
+
+        // ============================================================
+        // 3. FUNCIÓN DEL BOTÓN "ESCANEAR CIELO"
+        // Usa el ÚNICO endpoint real: /api/track/localization
+        // ============================================================
+        function escanearCielo() {
+            llamarAPI({
+                url: `/api/track/localization?radio_km=${RADIO_KM}`,
+                btnId: 'btn-escanear',
+                mensajeCargando: 'Consultando base de datos y calculando pasos orbitales...',
+                textoBotonCarga: 'Escaneando...',
+                renderExito: (data) => {
+                    const listaRadar = document.getElementById('lista-satelites');
+                    const listaVelocidades = document.getElementById('lista-velocidades');
+
+                    // Validación por si no hay satélites
+                    if (!data.satellites || data.satellites.length === 0) {
+                        listaRadar.innerHTML = `<p class="text-warning small">Cielo despejado. No hay satélites en este radio.</p>`;
+                        listaVelocidades.innerHTML = `<p class="text-white-50 small">Sin datos.</p>`;
+                        return;
+                    }
+
+                    // --- PINTAR CAJA 1: RADAR (Nombres y Coordenadas) ---
+                    let htmlRadar = '<div class="list-group">';
+                    data.satellites.forEach(sat => {
+                        const name = sat.nombre || 'STARLINK';
+                        const alt = sat.altura_orbital ?? 'N/A';
+                        const coords = (sat.lat !== undefined && sat.lon !== undefined)
+                            ? `${Number(sat.lat).toFixed(4)}° , ${Number(sat.lon).toFixed(4)}°`
+                            : 'N/A';
+
+                        htmlRadar += `
+                            <div class="p-2 border-bottom border-secondary small text-start text-white">
+                                <div class="d-flex w-100 justify-content-between">
+                                    <span class="fw-bold" style="color: #ffffff;">▶ ${name}</span>
+                                    <span class="text-white-50 ms-2" style="font-size: 0.75rem;">Alt: ${alt} km</span>
+                                </div>
+                                <div class="text-muted font-monospace mt-1" style="font-size: 0.7rem; color: #a8a8a8 !important;">
+                                    Pos: ${coords}
+                                </div>
+                            </div>`;
+                    });
+                    htmlRadar += '</div>';
+                    listaRadar.innerHTML = htmlRadar;
+
+                    // --- PINTAR CAJA 2: VELOCIDAD RADIAL & RANGOS ---
+                    let htmlVelocidades = '<div class="list-group">';
+                    data.satellites.forEach(sat => {
+                        const dist = sat.distancia_subpunto ?? 'N/A';
+                        const rango = sat.rango_real ?? 'N/A';
+
+                        htmlVelocidades += `
+                            <div class="d-flex justify-content-between border-bottom border-secondary py-1 small">
+                                <span class="text-white">${sat.nombre}</span>
+                                <span class="text-white-50 font-monospace" style="font-size: 0.75rem;">
+                                    Dist: ${dist} km | Rango: ${rango} km
+                                </span>
+                            </div>`;
+                    });
+                    htmlVelocidades += '</div>';
+                    listaVelocidades.innerHTML = htmlVelocidades;
+                }
+            });
+        }
+        // ============================================================
+        // 4. FUNCTION FOR /FOV/ALERTS"
+        // Usa el ÚNICO endpoint real: /fov/alertas
+        // ============================================================
+        function alertas_fov(){
+            llamarAPI(
+                {
+                 url: `/fov/alertas`,
+                }
+            )
+
+        }
+
+
+
     </script>
 
+</body>
 
 </html>
+

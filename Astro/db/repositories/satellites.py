@@ -70,3 +70,24 @@ class SatelliteRepository:
         with sqlite3.connect(self.db_path) as conn:
             conn.execute(query, (norad_id, observed_at, az, el, dist))
 
+if __name__ == "__main__":
+    from skyfield.api import load
+
+    repo = SatelliteRepository()
+    ts = load.timescale()
+
+    norad_id = 44714
+    observation_time = "2026-10-17 12:00:00"
+
+    tle = repo.get_tle_for_observation(
+        norad_id=norad_id,
+        observation_time=observation_time,
+        timescale=ts,
+    )
+
+    if tle is None:
+        print(f"No TLE found for NORAD {norad_id} before {observation_time}")
+    else:
+        print("Name:", tle.name)
+        print("NORAD:", tle.model.satnum)
+        print("Epoch:", tle.epoch.utc_iso())
