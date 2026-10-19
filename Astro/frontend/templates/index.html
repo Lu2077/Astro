@@ -15,82 +15,291 @@
 
 <body style="background: var(--bs-body-color);">
     <nav class="navbar navbar-expand-md bg-body py-3" style="background: var(--bs-link-color);">
-        <div class="container"><img src="/static/img/icon.png" width="92" height="85"><a class="navbar-brand d-flex align-items-center" href="#"><span>Astro</span></a><button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navcol-2"><span class="visually-hidden">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
+        <div class="container">
+            <img src="/static/img/icon.png" width="92" height="85">
+            <a class="navbar-brand d-flex align-items-center" href="#hero"><span>Astrθ</span></a>
+
+            <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navcol-2">
+                <span class="visually-hidden">Toggle navigation</span>
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
             <div class="collapse navbar-collapse" id="navcol-2" style="align-self: auto;">
                 <ul class="navbar-nav ms-auto">
-                    <li class="nav-item"><a class="nav-link active" href="#">FAQ</a></li>
-                    <li class="nav-item"></li>
-                    <li class="nav-item"></li>
-                </ul><a class="btn btn-primary ms-md-2" role="button" href="#">Search</a>
+
+                    <!-- Reemplazamos FAQ por Documentation (apunta a tu README en GitHub) -->
+                    <li class="nav-item">
+                        <a class="nav-link text-primary-50" href="https://github.com/Lu2077/Astro/blob/main/README.md" target="_blank">
+                            DOC
+                        </a>
+                    </li>
+
+                    <!-- Menú desplegable con las anclas -->
+                    <li class="nav-item dropdown ms-md-2">
+                        <a class="btn btn-primary dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Explore <!-- Corregí el "Explorare" por "Explore" o "Explorar" -->
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end shadow">
+                            <li><a class="dropdown-item" href="#seccion-about">About</a></li>
+                            <li><a class="dropdown-item" href="#seccion-radar">Sat Tracking</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item text-warning fw-bold" href="#seccion-fov">FOV Core</a></li>
+                            <li><a class="dropdown-item text-danger fw-bold" href="#seccion-backtracking">SSA Backtracking</a></li>
+                        </ul>
+                    </li>
+                </ul>
             </div>
         </div>
     </nav>
 
-    <div class="container py-4 py-xl-5">
-        <div class="row gy-4 gy-md-0" style="align-content: center;">
+    <!-- ========================================== -->
+    <!-- 0.1. SECCIÓN HERO: Astro Landing     -->
+    <!-- ========================================== -->
+    <div class="container py-5 text-center" style="min-height: 50vh; display: flex; flex-direction: column; justify-content: center; align-items: center;">
+        <h1 class="display-4 fw-bold mb-3" style="color: rgb(245, 245, 245);">Astro SSA</h1>
+        <p class="lead mb-4" style="color: rgb(200, 200, 200); max-width: 800px;">
+            Distributed platform for Space Situational Awareness (SSA) and data mitigation for astronomy.
+            Real-time orbital prediction and interference analysis for scientific observatories.
+        </p>
+        <img src="/static/img/Gemini_Generated_Image_nik2l4nik2l4nik2.jpeg"
+             alt="Astro SSA Banner"
+             class="img-fluid rounded shadow-lg mb-4"
+             style="max-width: 600px; width: 100%; border: 1px solid rgba(255,255,255,0.1);">
+    </div>
 
-        <!-- COLUMNA 1: Información / Hero -->
-            <div class="col-md-6 col-xl-4 text-center text-md-start d-flex d-sm-flex d-md-flex justify-content-center align-items-center justify-content-md-start align-items-md-center justify-content-xl-center">
-                <div style="max-width: 350px;">
-                    <h2 class="text-uppercase fw-bold"><span style="color: rgb(245, 245, 245);">Astro</span></h2>
-                    <p class="my-3"><strong><span style="color: rgb(245, 245, 245);">Satellite track for astronomers, from orbital prediction to data analysis related to LEO satellite track and observatory coordinates.</span></strong></p>
+    <!-- ========================================== -->
+    <!-- 1. SECCIÓN ABOUT: Pitch Elaborado          -->
+    <!-- ========================================== -->
+    <div id="seccion-about" class="container py-5" style="min-height: 50vh; display: flex; flex-direction: column; justify-content: center; align-items: center;">
+        <div class="row justify-content-center">
+            <div class="col-lg-10 text-center">
+                <h2 class="display-6 fw-bold mb-4" style="color: rgb(245, 245, 245);">Protecting astronomical viewing</h2>
+
+                <p class="lead mb-4" style="color: rgb(220, 220, 220);">
+                    The exponential growth of satellite constellations in Low Earth Orbit (LEO) threatens the integrity of scientific observations. Astro was created as an open-source, distributed-computing solution to mitigate this impact.
+                </p>
+
+                <p style="color: rgb(180, 180, 180); max-width: 800px; margin: 0 auto 2rem auto;">
+                    Through a native Python SDK and a high-availability REST API (FastAPI), our orchestration engine ingests TLE data, projects trajectories, and executes advanced geometric algorithms (such as the modeling of exclusion polygons). The system is designed to alert observatories before a satellite transit compromises the acquisition of scientific data or precision astrophotography.
+                </p>
+
+                <div class="d-flex justify-content-center gap-4 mt-3">
+                    <div class="text-center">
+                        <h4 class="fw-bold text-white mb-0">10k+</h4>
+                        <small class="text-white-50 font-monospace">Processed TLE's</small>
+                    </div>
+                    <div class="text-center">
+                        <h4 class="fw-bold text-white mb-0">ALMA / ESO</h4>
+                        <small class="text-white-50 font-monospace">Direct integration</small>
+                    </div>
+                    <div class="text-center">
+                        <h4 class="fw-bold text-white mb-0">Field of view (FOV) precision</h4>
+                        <small class="text-white-50 font-monospace">Data extraction for real-time alerts</small>
+                    </div>
                 </div>
             </div>
-
-            <!-- COLUMNA 2: Telemetría Apilada en Filas (Radar + Velocidad) -->
-            <div class="col-md-12 col-lg-8">
-                <div class="d-flex flex-column gap-4">
-
-                    <!-- FILA 1: Caja del Radar -->
-                    <div class="p-4 rounded bg-dark text-white shadow-sm">
-                        <h5 class="fw-bold mb-3 text-white">Radar de Satélites:</h5>
-                        <!-- Botón corregido con el onclick directo -->
-                        <button id="btn-escanear" onclick="escanearCielo()" class="btn btn-primary btn-sm w-100 mb-3">
-                            Escanear Cielo
-                        </button>
-                        <div id="lista-satelites" class="overflow-auto" style="max-height: 200px;">
-                            <p class="text-white-50 small">Presiona para consultar datos.</p>
-                        </div>
-                    </div>
-
-                    <!-- FILA 2: Caja de Velocidad Radial -->
-                    <div class="p-4 rounded bg-dark text-white shadow-sm" id="caja-velocidad-contenedor">
-                        <h5 class="fw-bold mb-3 text-w">Velocidad Radial & Rangos:</h5>
-                        <div id="lista-velocidades" class="overflow-auto" style="max-height: 200px;">
-                            <p class="text-white-50 small">Esperando escaneo orbital...</p>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-
         </div>
     </div>
 
+    <!-- ========================================== -->
+    <!-- 2. SECCIÓN: RADAR DE SATÉLITES             -->
+    <!-- ========================================== -->
+    <div id="seccion-radar" class="container py-5">
+        <div class="row align-items-center mb-4">
+            <div class="col-lg-8 mx-auto text-center">
+                <h2 class="fw-bold text-white mb-3">1. Tracking Orbital (LEO)</h2>
+                <p class="text-white-50">Query the local database and calculate the projected positions of the Starlink constellation in real time.</p>
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-md-10 col-lg-8">
+                <!-- CAJA 1: RADAR -->
+                <div class="p-4 rounded bg-dark text-white shadow-sm border border-secondary">
+                    <h5 class="fw-bold mb-3 text-white">Satellites constellation tracker:</h5>
+                    <button id="btn-escanear" onclick="escanearCielo()" class="btn btn-primary btn-sm w-100 mb-3">
+                        Scan
+                    </button>
+                    <div id="lista-satelites" class="overflow-auto" style="max-height: 200px;">
+                        <p class="text-white-50 small">Press to ask for data.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- 3. SECCIÓN: TELEMETRÍA (VELOCIDAD)         -->
+    <!-- ========================================== -->
+    <div class="container py-5">
+        <div class="row align-items-center mb-4">
+            <div class="col-lg-8 mx-auto text-center">
+                <h2 class="fw-bold text-white mb-3">2. Telemetry</h2>
+                <p class="text-white-50">Distances projected onto the geoid, orbital altitude, and actual ranges of the detected satellites.</p>
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-md-10 col-lg-8">
+                <!-- CAJA 2: VELOCIDAD RADIAL -->
+                <div class="p-4 rounded bg-dark text-white shadow-sm border border-secondary" id="caja-velocidad-contenedor">
+                    <h5 class="fw-bold mb-3 text-white">Radial Velocity & Ranges:</h5>
+                    <div id="lista-velocidades" class="overflow-auto" style="max-height: 200px;">
+                        <p class="text-white-50 small">Waiting for orbital scanning...</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+        <!-- ========================================== -->
+    <!-- 4. SECCIÓN: EVALUACIÓN FOV (CONTROLES)     -->
+    <!-- ========================================== -->
+    <div class="container py-5">
+        <div class="row align-items-center mb-4">
+            <div class="col-lg-8 mx-auto text-center">
+                <h2 class="fw-bold text-white mb-0">3. FOV Mitigation Engine</h2>
+                <p class="text-white-50">Observation schedule orchestrator. This module is designed as a wrapper to ingest JSON-formatted observation plans from actual observatories (ALMA, ESO) and geometrically project their fields of view against satellite ephemerides.</p>
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-md-10 col-lg-8">
+                <!-- CAJA 3: CONTROLES FOV -->
+                <div class="p-4 rounded bg-dark text-white shadow-sm border border-secondary" id="caja-fov-contenedor">
+                    <h5 class="fw-bold text-white mb-0">Field of View (FOV) Assessment:</h5>
+
+                    <div class="mb-3">
+                        <label for="select-observatorio" class="form-label text-white-50 small mb-1">Select Observatory:</label>
+                        <select id="select-observatorio" class="form-select form-select-sm bg-dark text-white border-secondary">
+                            <option value="alma" selected>ALMA</option>
+                            <option value="la_silla">La Silla</option>
+                            <option value="paranal">Paranal</option>
+                            <option value="apex">APEX</option>
+                        </select>
+                    </div>
+
+                    <button id="btn-alertas-fov" onclick="alertas_fov()" class="btn btn-primary btn-sm w-100 mb-3">
+                        Evaluate FOV Alerts
+                    </button>
+
+                    <div id="lista-eventos-fov" class="overflow-auto" style="max-height: 150px;">
+                        <p class="text-white-50 small">Select an observatory and press evaluate.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- 5. SECCIÓN: ALERTAS SSA GENERALES          -->
+    <!-- ========================================== -->
+    <div class="container py-5">
+        <div class="row align-items-center mb-4">
+            <div class="col-lg-8 mx-auto text-center">
+                <h2 class="fw-bold text-white mb-0">4. SSA Warnings & Backtracking</h2>
+                <p class="text-white-50">Results from the geometric engine (ray-casting and exclusion polygons) identifying satellites that interfere with observations.</p>
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-md-10 col-lg-8">
+                <!-- CAJA 4: ALERTAS GENERALES -->
+                <div class="p-4 rounded bg-dark text-white shadow-sm border border-secondary" id="caja-alertas-contenedor">
+                    <h5 class="fw-bold text-white mb-0">Interference:</h5>
+                    <div id="lista-alertas-fov" class="overflow-auto" style="max-height: 200px;">
+                        <p class="text-white-50 small">Awaiting FOV evaluation...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- 6. SECCIÓN: BACKTRACKING SSA EXCLUSIVO ALMA -->
+    <!-- ========================================== -->
+       <div class="container py-5" id="seccion-backtracking">
+        <div class="row align-items-center mb-4">
+            <div class="col-lg-8 mx-auto text-center">
+                <h2 class="fw-bold text-white mb-3">5. SSA Engine: ALMA Backtracking</h2>
+                <p class="text-white-50">
+                    Geometric validation module. Currently in the simulation phase to demonstrate the viability of the architecture, it evaluates the ALMA exclusion polygon (20 vertices) using the <em>ray-casting</em> technique. The system is configured to ingest and process historical orbital telemetry (SGP4/Doppler) from a local database, in order to issue critical alerts.
+                </p>
+            </div>
+        </div>
+
+        <!-- IMAGEN REPRESENTATIVA DEL BACKTRACKING -->
+        <div class="row justify-content-center mb-4">
+                <div class="col-md-10 col-lg-8 text-center">
+                    <img src="/static/img/alma.jpg"
+                         alt="ALMA Polygon Backtracking Visualization"
+                         class="img-fluid rounded shadow-lg"
+                         style="max-width: 100%; border: 1px solid rgba(255,255,255,0.1);">
+                </div>
+            </div>
+
+            <div class="row justify-content-center">
+                <div class="col-md-10 col-lg-8">
+                    <!-- CAJA 5: CONTROLES Y RESULTADOS BACKTRACKING -->
+                    <div class="p-4 rounded bg-dark text-white shadow-sm border border-secondary">
+                        <h5 class="fw-bold text-white mb-3">SSA Geometric Backtracking (ALMA):</h5>
+
+                        <button id="btn-backtracking" onclick="ejecutar_backtracking()" class="btn btn-primary btn-sm w-100 mb-3">
+                            Run SSA Backtracking (ALMA)
+                        </button>
+
+                        <div id="lista-backtracking" class="overflow-auto" style="max-height: 250px;">
+                            <p class="text-white-50 small">Press the button to run the ALMA geometric engine.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
     <!-- FILA FOOTER -->
-    <footer class="text-center bg-body ms-0 py-4">
+    <footer class="text-center bg-dark py-4 mt-5 border-top border-secondary border-opacity-10">
         <div class="container">
-            <div class="row row-cols-1 row-cols-lg-3">
-                <div class="col">
-                    <p class="text-body my-2">Copyright&nbsp;© 2026 Brand</p>
+            <div class="row align-items-center row-cols-1 row-cols-md-3">
+
+                <!-- COLUMNA 1: Copyright e Identificación + Tech Stack -->
+                <div class="col text-md-start mb-3 mb-md-0">
+                    <p class="text-white-50 small my-0 mb-2">
+                        Astro SSA Project &copy; 2026
+                    </p>
+                    <!-- Tech Stack -->
+                    <div class="d-flex justify-content-md-start justify-content-center gap-2">
+                        <a href="https://www.python.org" target="_blank" title="Python">
+                            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" width="20" alt="Python" style="opacity: 0.5; transition: opacity 0.2s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.5'">
+                        </a>
+                        <a href="https://www.sqlite.org" target="_blank" title="SQL / SQLite">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="text-white" viewBox="0 0 16 16" style="opacity: 0.5; transition: opacity 0.2s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.5'">
+                                <path d="M4.318 2.687C5.234 2.271 6.536 2 8 2s2.766.27 3.682.687C12.644 3.125 13 3.627 13 4c0 .374-.356.875-1.318 1.313C10.766 5.729 9.464 6 8 6s-2.766-.27-3.682-.687C3.356 4.875 3 4.373 3 4c0-.374.356-.875 1.318-1.313ZM13 5.698V7c0 .374-.356.875-1.318 1.313C10.766 8.729 9.464 9 8 9s-2.766-.27-3.682-.687C3.356 7.875 3 7.373 3 7V5.698c.271.202.58.378.904.525C4.978 6.711 6.427 7 8 7s3.022-.289 4.096-.777A4.988 4.988 0 0 0 13 5.698ZM14 8v1.5c0 .374-.356.875-1.318 1.313C11.766 11.229 10.464 11.5 9 11.5s-2.766-.27-3.682-.687C4.356 10.375 4 9.873 4 9.5V8.002c.271.202.58.378.904.525C5.978 9.211 7.427 9.5 9 9.5s3.022-.289 4.096-.777A4.988 4.988 0 0 0 14 8.002V8Zm-1 3.5v1.5c0 .374-.356.875-1.318 1.313C11.766 14.729 10.464 15 9 15s-2.766-.27-3.682-.687C4.356 13.875 4 13.373 4 13v-1.5c.271.202.58.378.904.525C5.978 12.711 7.427 13 9 13s3.022-.289 4.096-.777A4.988 4.988 0 0 0 14 11.5Z"/>
+                            </svg>
+                        </a>
+                    </div>
                 </div>
-                <div class="col" style="align-items: center;">
-                    <ul class="list-inline my-2">
-                        <li class="list-inline-item me-4"><a class="bs-icon-circle bs-icon-primary bs-icon" href="#"><svg class="bi bi-facebook" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16">
-                                    <path d="M16 8.049c0-4.446-3.582-8.05-8-8.05C3.58 0-.002 3.603-.002 8.05c0 4.017 2.926 7.347 6.75 7.951v-5.625h-2.03V8.05H6.75V6.275c0-2.017 1.195-3.131 3.022-3.131.876 0 1.791.157 1.791.157v1.98h-1.009c-.993 0-1.303.621-1.303 1.258v1.51h2.218l-.354 2.326H9.25V16c3.824-.604 6.75-3.934 6.75-7.951"></path>
-                                </svg></a></li>
-                        <li class="list-inline-item me-4"><a class="bs-icon-circle bs-icon-primary bs-icon" href="#"><svg class="bi bi-twitter-x" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16">
-                                    <path d="M12.6.75h2.454l-5.36 6.142L16 15.25h-4.937l-3.867-5.07-4.425 5.07H.316l5.733-6.57L0 .75h5.063l3.495 4.633L12.601.75Zm-.86 13.028h1.36L4.323 2.145H2.865z"></path>
-                                </svg></a></li>
-                    </ul>
+
+                <!-- COLUMNA 2: Licencia Oficial (En el centro) -->
+                <div class="col mb-3 mb-md-0">
+                    <span class="badge bg-secondary font-monospace text-uppercase" style="letter-spacing: 0.5px;">
+                        Distributed under MIT License
+                    </span>
                 </div>
-                <div class="col">
-                    <ul class="list-inline my-2">
-                        <li class="list-inline-item"><a class="link-body-emphasis" href="#">Privacy Policy</a></li>
-                        <li class="list-inline-item"><a class="link-body-emphasis" href="#">Terms of Use</a></li>
-                    </ul>
+
+                <!-- COLUMNA 3: Enlaces de Ingeniería (GitHub y LinkedIn en íconos) -->
+                <div class="col text-md-end">
+                    <div class="d-flex justify-content-md-end justify-content-center gap-3">
+                        <a href="https://github.com/Lu2077/Astro" target="_blank" title="GitHub Repository">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="text-white" viewBox="0 0 16 16" style="opacity: 0.5; transition: opacity 0.2s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.5'">
+                                <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z"/>
+                            </svg>
+                        </a>
+                        <a href="https://www.linkedin.com/in/lucas-d%C3%ADaz-bulnes-175a37209" target="_blank" title="Developer LinkedIn">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="text-white" viewBox="0 0 16 16" style="opacity: 0.5; transition: opacity 0.2s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.5'">
+                                <path d="M0 1.146C0 .513.526 0 1.175 0h13.65C15.474 0 16 .513 16 1.146v13.708c0 .633-.526 1.146-1.175 1.146H1.175C.526 16 0 15.487 0 14.854V1.146zm4.943 12.248V6.169H2.542v7.225h2.401zm-1.2-8.212c.837 0 1.358-.554 1.358-1.248-.015-.709-.52-1.248-1.342-1.248-.822 0-1.359.54-1.359 1.248 0 .694.521 1.248 1.327 1.248h.016zm4.908 8.212V9.359c0-.216.016-.432.08-.586.173-.431.568-.878 1.232-.878.869 0 1.216.662 1.216 1.634v3.865h2.401V9.25c0-2.22-1.184-3.252-2.764-3.252-1.274 0-1.845.7-2.165 1.193v.025h-.016a5.54 5.54 0 0 1 .016-.025V6.169h-2.4c.03.678 0 7.225 0 7.225h2.4z"/>
+                            </svg>
+                        </a>
+                    </div>
                 </div>
+
             </div>
         </div>
     </footer>
@@ -206,18 +415,173 @@
             });
         }
         // ============================================================
-        // 4. FUNCTION FOR /FOV/ALERTS"
-        // Usa el ÚNICO endpoint real: /fov/alertas
+        // 4. FUNCIÓN DEL BOTÓN "ALERTAS FOV"
+        // Pinta los eventos de observatorios y satélites intrusos
         // ============================================================
-        function alertas_fov(){
-            llamarAPI(
-                {
-                 url: `/fov/alertas`,
-                }
-            )
+        function alertas_fov() {
+            const selectObs = document.getElementById('select-observatorio');
+            const obsSeleccionado = selectObs ? selectObs.value : 'alma';
 
+            // Obtenemos las cajas de FOV
+            const cajaEventos = document.getElementById('lista-eventos-fov');
+            const cajaAlertas = document.getElementById('lista-alertas-fov');
+            const btn = document.getElementById('btn-alertas-fov');
+            const btnTextoOriginal = btn.innerHTML;
+
+            // Estado de carga en el botón
+            btn.disabled = true;
+            btn.innerHTML = `<span class="spinner-border spinner-border-sm"></span> Evaluando ${obsSeleccionado.toUpperCase()}...`;
+
+            // Limpiamos las cajas de FOV
+            if (cajaEventos) cajaEventos.innerHTML = '<p class="text-white-50 small">Consultando agenda astronómica...</p>';
+            if (cajaAlertas) cajaAlertas.innerHTML = '<p class="text-white-50 small">Evaluando interferencias...</p>';
+
+            fetch(`/fov/alertas?observatorio=${obsSeleccionado}`)
+                .then(res => {
+                    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+                    return res.json();
+                })
+                .then(data => {
+                    // --- PINTAR CAJA 1: EVENTOS ASTRONÓMICOS ---
+                    if (!data.eventos_muestra || data.eventos_muestra.length === 0) {
+                        cajaEventos.innerHTML = `<p class="text-warning small">No hay eventos programados en este rango.</p>`;
+                    } else {
+                        let htmlEventos = '<div class="list-group">';
+                        htmlEventos += `
+                            <div class="p-2 mb-2 bg-secondary bg-opacity-25 rounded text-white small">
+                                <strong>Resumen:</strong> ${data.eventos_evaluados} eventos programados en total.
+                            </div>
+                        `;
+                        data.eventos_muestra.forEach(ev => {
+                            const obj = ev.objeto || 'N/A';
+                            const inst = ev.instrument_name || 'N/A';
+                            const ra = ev.ra ? Number(ev.ra).toFixed(2) : 'N/A';
+                            const dec = ev.dec ? Number(ev.dec).toFixed(2) : 'N/A';
+                            const fov = ev.fov_deg ? Number(ev.fov_deg).toFixed(4) : 'N/A';
+
+                            // Formatear tiempo (JD) a algo más legible si es posible
+                            const t_start = ev.t_min ? Number(ev.t_min).toFixed(2) : 'N/A';
+
+                            htmlEventos += `
+                                <div class="p-2 border-bottom border-secondary small text-start text-white">
+                                    <div class="d-flex w-100 justify-content-between">
+                                        <span class="fw-bold" style="color: #ffc107;">🔭 Obj: ${obj}</span>
+                                        <span class="badge bg-info">FOV: ${fov}°</span>
+                                    </div>
+                                    <div class="text-muted font-monospace mt-1" style="font-size: 0.7rem; color: #a8a8a8 !important;">
+                                        Instrumento: <strong class="text-white">${inst}</strong>
+                                    </div>
+                                    <div class="text-muted font-monospace mt-1" style="font-size: 0.65rem; color: #7a7a7a !important;">
+                                        RA: ${ra}° | Dec: ${dec}° | Inicio (JD): ${t_start}
+                                    </div>
+                                </div>`;
+                        });
+                        htmlEventos += '</div>';
+                        cajaEventos.innerHTML = htmlEventos;
+                    }
+
+                    // --- PINTAR CAJA 2: ALERTAS CRÍTICAS ---
+                    if (!data.alertas || data.alertas.length === 0) {
+                        cajaAlertas.innerHTML = `<p class="text-success small">✅ Cielo despejado. Ningún satélite interfiere con el FOV del observatorio.</p>`;
+                    } else {
+                        let htmlAlertas = '<div class="list-group">';
+                        htmlAlertas += `<div class="p-2 mb-2 bg-danger text-white rounded small fw-bold">⚠️ ${data.alertas.length} SATÉLITES INTERFIRIENDO</div>`;
+
+                        data.alertas.forEach(alerta => {
+                            htmlAlertas += `
+                                <div class="d-flex flex-column border-bottom border-danger py-2 small text-white">
+                                    <div class="d-flex justify-content-between">
+                                        <span class="fw-bold text-danger">🛰️ ${alerta.satelite_name}</span>
+                                        <span class="font-monospace text-warning" style="font-size: 0.75rem;">Dist: ${Number(alerta.distancia_al_centro_deg).toFixed(4)}°</span>
+                                    </div>
+                                    <div class="font-monospace mt-1" style="font-size: 0.7rem; color: #a8a8a8;">
+                                        Afecta a: <strong class="text-white">${alerta.impacto_objeto}</strong> (${alerta.instrumento_afectado})
+                                    </div>
+                                </div>`;
+                        });
+                        htmlAlertas += '</div>';
+                        cajaAlertas.innerHTML = htmlAlertas;
+                    }
+                })
+                .catch(error => {
+                    console.error('[Error API FOV]', error);
+                    if (cajaEventos) cajaEventos.innerHTML = `<p class="text-danger small">⚠️ Error de conexión.</p>`;
+                    if (cajaAlertas) cajaAlertas.innerHTML = `<p class="text-danger small">⚠️ ${error.message}</p>`;
+                })
+                .finally(() => {
+                    btn.disabled = false;
+                    btn.innerHTML = btnTextoOriginal;
+                });
         }
+                // ============================================================
+        // 5. FUNCIÓN DEL BOTÓN "BACKTRACKING SSA" (Mock ALMA)
+        // Usa el endpoint con el motor geométrico y el polígono
+        // ============================================================
+                function ejecutar_backtracking() {
+            const cajaBacktracking = document.getElementById('lista-backtracking');
+            const btn = document.getElementById('btn-backtracking');
+            const btnTextoOriginal = btn.innerHTML;
 
+            // Estado de carga
+            btn.disabled = true;
+            btn.innerHTML = `<span class="spinner-border spinner-border-sm"></span> Ejecutando Ray-Casting...`;
+            if (cajaBacktracking) cajaBacktracking.innerHTML = '<p class="text-white-50 small">Inyectando polígono y calculando telemetría...</p>';
+
+            fetch('/fov/backtracking-alma')
+                .then(res => {
+                    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+                    return res.json();
+                })
+                .then(data => {
+                    // 1. Validar si hay datos
+                    if (!data.alertas || data.alertas.length === 0) {
+                        if (cajaBacktracking) cajaBacktracking.innerHTML = `<p class="text-success small">✅ El motor SSA no detectó satélites cruzando el polígono de ALMA.</p>`;
+                        return; // Detiene la ejecución aquí si no hay datos
+                    }
+
+                    // 2. Inicializamos el contenedor de las alertas
+                    let htmlAlertas = '<div class="list-group">';
+                    htmlAlertas += `<div class="p-2 mb-2 bg-transparent border border-info rounded small fw-bold text-white">🛰️ Motor SSA: ${data.total_interferencias_satelitales} interferencias detectadas en ${data.eventos_astronomicos_analizados} eventos.</div>`;
+
+                    // 3. Iteramos sobre las alertas
+                    data.alertas.forEach(alerta => {
+                        const satName = alerta.satelite || 'Desconocido';
+                        const noradId = alerta.norad_id || 'N/A';
+                        const mjd = alerta.mjd || 'N/A';
+                        const velRadial = alerta.velocidad_radial || 'N/A';
+                        const estado = alerta.estado || 'Desconocido';
+                        const impacto = alerta.impacto || 'CRÍTICO';
+
+                        htmlAlertas += `
+                            <div class="d-flex flex-column border-bottom border-secondary py-2 small text-white">
+                                <div class="d-flex justify-content-between align-items-center mb-1">
+                                    <span class="fw-bold text-white">🛰️ ${satName} <small class="text-white-50 font-monospace ms-1">(NORAD: ${noradId})</small></span>
+                                    <span class="badge border border-dark text-white bg-transparent font-monospace">${impacto}</span>
+                                </div>
+                                <div class="d-flex justify-content-between font-monospace mt-1" style="font-size: 0.75rem; color: #a8a8a8;">
+                                    <span>Estado: <span class="text-white">${estado}</span></span>
+                                    <span>Vel. Radial: <span class="text-white">${velRadial}</span></span>
+                                </div>
+                                <div class="font-monospace mt-1" style="font-size: 0.7rem; color: #7a7a7a;">
+                                    Tiempo de impacto (MJD): ${mjd}
+                                </div>
+                            </div>`;
+                    }); // <-- Cierre del forEach
+
+                    htmlAlertas += '</div>'; // Cierre del list-group
+
+                    // 4. Pintamos todo en la caja
+                    if (cajaBacktracking) cajaBacktracking.innerHTML = htmlAlertas;
+                }) // <-- Cierre del segundo .then
+                .catch(error => {
+                    console.error('[Error Backtracking]', error);
+                    if (cajaBacktracking) cajaBacktracking.innerHTML = `<p class="text-danger small">⚠️ Error: ${error.message}</p>`;
+                })
+                .finally(() => {
+                    btn.disabled = false;
+                    btn.innerHTML = btnTextoOriginal;
+                });
+        } // <-- Cierre de la función ejecutar_backtracking
 
 
     </script>
