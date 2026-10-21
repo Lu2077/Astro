@@ -1,255 +1,123 @@
+# 🛰️ Astro — Space Situational Awareness (SSA) SDK
+
+
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+[![Python](https://img.shields.io/badge/Python-3.10%2B-blue.svg)](https://www.python.org/)
 [![Astro CI - Test Suite](https://github.com/Lu2077/Astro/actions/workflows/tests.yml/badge.svg)](https://github.com/Lu2077/Astro/actions/workflows/tests.yml)
 
-# 🛰️ Astro - Sat Tracking for Astronomers
+**Astro** is an open-source Python SDK for Space Situational Awareness (SSA), satellite tracking, and observation planning.
 
-![Antenas ALMA](docs/Antenas-ALMA-105.jpg)
-
-**Astro** is a project designed for astronomers that enables **real-time tracking and orbit prediction of artificial satellites**. Its primary objective is to assist in planning nighttime observations, preventing satellite passes from ruining astrophotography captures or scientific data.
+Its goal is to act as an integration and validation layer between public orbital data sources, local astronomical datasets, and observation workflows. Rather than replacing propagation engines such as SGP4 or Skyfield, Astro focuses on combining their outputs with observatory context, field-of-view geometry, and reproducible data pipelines.
 
 ---
 
-##  Current state of the project
+## 📚 Documentation
 
-*   **Currently, Astro is in its initial functional version and is under active development.**
+The documentation is organized by responsibility to keep technical references focused and maintainable:
 
-Prior to the implementation of machine learning models for orbit prediction, the modules are being developed separately.
-
-The core modules allow the following tasks to be performed independently:
-
-*   **Object Tracking on Low Earth Orbit (LEO):** 
-Calculation of the relative radial velocity from a coordinated observation point to a captured satellite belonging to a satellite constellation. 
-*   **Data ingestion and processing:** Download of TLE data—the global standard for packaging and sharing orbital data for any object in space. 
-*   **Events ingestion:** Tracking of fixed and mobile events using astronomical coordinates and Astroquery. 
-*   **Satellite radio localization:** determines the presence and number of satellites in a constellation based on the observer's radius 
-*   **DataBases:** implementing Data Bases
-
-From chapter 4 - 4.2 - The role of the measurement model in introducing nonlinearity to the process was described. 
-In the general orbit determination problem, both the dynamics and the measurements involve significant nonlinear relationships. For the general case, the governing relations involve the nonlinear **expression**:
-
-$$
-\begin{matrix} \dot{\mathbf{X}} = F(\mathbf{X}, t), & \mathbf{X}(t_k) \equiv \mathbf{X}_k & \text{(4.2.1)} \end{matrix}
-$$
-
-$$
-\begin{matrix} \mathbf{Y}_i = G(\mathbf{X}_i, t_i) + \epsilon_i; & i = 1, \dots, \ell & \text{(4.2.2)} \end{matrix}
-$$
-
-
-**where:**
-$\mathbf{X}_k$ is the unknown $n$-dimensional state vector at the time $t_k$, and
-$\mathbf{Y}_i$ for $i = 1, \dots, \ell$, is a $p$-dimensional set of observations that are to be used to obtain a best estimate of the unknown value of $\mathbf{X}_k$ (i.e., $\hat{\mathbf{X}}_k$).
-
-In general, $p < n$ and $m = p \times \ell \gg n$. The formulation represented by Eqs. (4.2.1) and (4.2.2) is characterized by: (1) the inability to observe the state directly, (2) nonlinear relations between the observations and the state,
-(3) fewer observations at any time epoch than there are state vector components ($p < n$), and (4) errors in the observations represented by ${\epsilon}_i$.
-
-Then: our Data Base will provide $\mathbf{a})$ epochs or sets of observation, and
-                                 $\mathbf{b})$ will provide observation errors ${\epsilon}_i$ to correct and get the trajectories of our captured satellites.
-
-![DBbrowser](docs/dbrowse.png)
+- 📖 [**SDK & Core API Manual**](Astro/src/track/README.md) — Public interfaces, geometric engine contracts, and FastAPI endpoint specifications.
+- 📐 [**Scientific Research Notes**](docs/RESEARCH.md) — Orbital modeling, astrodynamics fundamentals, and the mathematical background behind the project.
+- 🗄️ [**Data Layer Guide**](Astro/db/README.md) — SQLite schema, migrations, and static seed data for `astro.sqlite3`.
 
 ---
 
-*   **Future features and Roadmap:**
-*   **Automation:** Set the setup to bring the modules  
-*   **Tests:** Improve test suite logic trough pytest fixture
-*   **Trajectory calculation:** Reliably estimate orbital trajectories | refinement of orbital trajectory errors
-*   **OD:** Improve the localization of captured objects using Earth-Centered Inertial (ECI) coordinates.
-*   **OP:** Predict the object's location using Earth-Centered, Earth-Fixed (ECEF) coordinates (ITRF/WGS84)
+## 🧭 Project scope
 
+Astro is designed to help answer practical questions such as:
 
----
+- Where will a satellite be at a given time?
+- What is its relative motion from a specific ground station?
+- Could a satellite transit through a telescope’s field of view?
+- Can TLE, observatory, and local observation data be integrated reproducibly?
 
-## Installation and Requirements
-
-This project requires **Python 3.8 or higher**. Follow these steps to set it up on your computer.
-
-1.  **Clone this repository:**
-    ```bash
-    git clone https://github.com/Lu2077/Astro
-    cd Astro
-    ```
-
-2.  **Create a virtual environment:**
-    ```bash
-    python -m venv env
-    source env/bin/activate  # En Linux/macOS
-    # o usa: env\Scripts\activate  # En Windows
-    ```
-
-3.  **Install the necessary dependencies:**
-    ```bash
-    pip install -r requirements.txt
-    ```
+The project is particularly interested in the interaction between LEO satellite constellations and ground-based astronomical facilities.
 
 ---
 
-##  Use cases and terminal output
+## 🛠️ Architecture
 
-**Examples of various modules in operation are shown below:**
-
-<details>
-<summary><b> Example 1: Space Station Scanning (ISS)</b></summary>
+Astro is intended as an orchestration and integration layer, not as a new orbital-propagation engine.
 
 ```text
-Loaded 21 satellites
-Primer satélite en la lista:  ISS (ZARYA)
-Detectando tu ubicación actual...
-
- ¡Ubicación detectada!
-Ciudad/Región: Santiago, Santiago Metropolitan, CL
-Coordenadas: -33.4569, -70.6483
-
-Escaneando... 21 satélites en un radio de 500 KM
-
- Resultados: se encontraron 0 satélites cerca de tí ahora mismo
-SATELITE                       | DISTANCIA AL PUNTO | COORDENADAS         
----------------------------------------------------------------------------
-
-Process finished with exit code 0
+[ Observatory APIs ]        [ TLE ingestion (e.g. CelesTrak) ]
+        │                              │
+        └──────────► [ Astro SDK ] ◄───┘
+                     (Orchestration layer)
+                              │
+        ┌─────────────────────┴─────────────────────┐
+        ▼                                           ▼
+[ Geometric engine ]                      [ Data pipeline ]
+ FOV / ray-casting workflows               Ingestion, validation, SQLite
 ```
-</details>
 
-<details>
-<summary><b> Example 2: Captured satellite constellation, including ID, geoid-projected and linear distances, orbital altitude, and projected coordinates</b></summary>
+### Current MVP capabilities
 
-```text
-Coordenadas: -33.4569, -70.6483
+- **LEO object tracking:** relative radial velocity and Doppler calculations from topocentric observer coordinates.
+- **TLE data ingestion:** consumption, parsing, and local storage of structured TLE datasets.
+- **Geometric backtracking:** reverse-time simulation workflows to compare recorded telemetry against field-of-view or exclusion polygons.
 
-Escaneando... 10734 satélites en un radio de 500 KM
-
- Resultados: se encontraron 21 satélites cerca de tí ahora mismo
-SATELITE             | ORBITAL ALTITUDE | ACTUAL DISTANCE | GROUND DISTANCE   | COORDENADAS         
--------------------------------------------------------------------------------------------------
-STARLINK-31415       | 491.48 km        | 495.49 km       | 60.62 km          | -32.937° , -70.448° 
-STARLINK-3306        | 343.57 km        | 356.75 km       | 93.58 km          | -33.707° , -69.686° 
-STARLINK-35014       | 474.12 km        | 489.32 km       | 116.74 km         | -34.279° , -71.436° 
-STARLINK-35714       | 472.13 km        | 500.04 km       | 158.91 km         | -32.027° , -70.756° 
-STARLINK-11343 [DTC] | 368.30 km        | 410.79 km       | 176.90 km         | -32.024° , -71.478° 
-STARLINK-32092       | 492.38 km        | 531.47 km       | 192.76 km         | -34.995° , -71.621° 
-STARLINK-1191        | 440.04 km        | 496.07 km       | 221.51 km         | -34.321° , -72.807° 
-STARLINK-33620       | 492.42 km        | 552.78 km       | 242.01 km         | -34.735° , -68.522° 
-STARLINK-1357        | 346.38 km        | 429.78 km       | 247.79 km         | -34.113° , -73.206° 
-STARLINK-37451       | 474.70 km        | 582.28 km       | 325.30 km         | -35.795° , -68.507° 
-STARLINK-35999       | 473.87 km        | 593.14 km       | 344.20 km         | -33.569° , -66.945° 
-STARLINK-35934       | 477.82 km        | 598.97 km       | 348.35 km         | -31.082° , -68.228° 
-STARLINK-31802       | 492.44 km        | 620.16 km       | 363.20 km         | -35.510° , -73.729° 
-STARLINK-33923       | 490.91 km        | 621.25 km       | 366.83 km         | -30.342° , -69.341° 
-STARLINK-35712       | 472.13 km        | 609.01 km       | 371.16 km         | -30.149° , -70.046° 
-
-```
-</details>
-
-
-<details>
-
-<summary><b> Example 3: Relative Radial Velocity</b></summary>
-
-```text
-lugar observer: -33.4569, -70.6483
-configuracion observación exitosa: WGS84 latitude -33.4569 N longitude -70.6483 E elevation 0.0 m
-primera muestra: 3 satélites
-Segunda muestra: 2 satélites
-
-STARLINK-36407                 | rango:  485.27 km | alejandose: 0.595 km/s | elevación: 80.20 degree | 
-STARLINK-36614                 | rango:  493.25 km | acercandose: 0.297 km/s | elevación: 84.86 degree | 
-```
-</details>
+> Some observatory integrations and advanced orbital-refinement features are part of the project roadmap and are not yet fully implemented.
 
 ---
 
-##  Project Structure
+## 🚀 Local development
 
-<details>
-<summary><b> Tree | directories, scripts & archives </b></summary>
+### Prerequisites
+
+- Python 3.10 or later
+- A virtual environment
+
+### 1. Clone and install in editable mode
+
+```bash
+git clone [https://github.com/Lu2077/Astro.git](https://github.com/Lu2077/Astro.git)
+cd Astro
+
+python -m venv .venv
+source .venv/bin/activate
+
+pip install -e .
+```
+
+Installing in editable mode links the local source code to your Python environment, allowing changes to the SDK to be available immediately during development.
+
+### 2. Run the test suite
+
+```bash
+pytest tests/
+```
+
+### 3. Run the demonstration API
+
+```bash
+python Astro/main.py
+```
+
+The local API will be available at:
 
 ```text
-ros2@lucas-H410M-H:~/Desktop/proyecto-Astro/Astro$ tree -I 'env'
-.
-├── Astro
-│   ├── db
-│   │   ├── connection.py
-│   │   ├── init_db.py
-│   │   ├── migrations
-│   │   │   └── README.md
-│   │   ├── models.py
-│   │   ├── repositories
-│   │   │   ├── __init__.py
-│   │   │   ├── observatories.py
-│   │   │   ├── satellites.py
-│   │   │   └── stations.py
-│   │   ├── schema.sql
-│   │   └── seeds
-│   │       ├── __init__.py
-│   │       └── seed.sql
-│   ├── deploy
-│   ├── Dockerfile
-│   ├── info
-│   ├── __init__.py
-│   ├── requirements.txt
-│   ├── src
-│   │   ├── apis
-│   │   │   ├── apis.yaml
-│   │   │   ├── astroplan.py
-│   │   │   ├── astroquery_api.py
-│   │   │   ├── celes_starlink.py
-│   │   │   ├── celes_trak.py
-│   │   │   ├── starlink.tle
-│   │   │   └── stations.tle
-│   │   ├── __init__.py
-│   │   └── track
-│   │       ├── astroplan_fixed.py
-│   │       ├── astroplan_movile.py
-│   │       ├── astro_validate.py
-│   │       ├── events.py
-│   │       ├── FOV.py
-│   │       ├── __init__.py
-│   │       ├── localization.py
-│   │       ├── track.py
-│   │       ├── trajectories.py
-│   │       ├── vel_sat.py
-│   │       └── warns.py
-│   └── test
-│       ├── __init__.py
-│       ├── localization_test.py
-│       ├── pulses_test.py
-│       ├── __pycache__
-│       │   └── test_track.cpython-310.pyc
-│       ├── search_test.py
-│       ├── setup.py
-│       ├── starlink.tle
-│       ├── stations.tle
-│       ├── test_celes_trak.py
-│       ├── test_track.py
-│       └── visibility_test.py
-├── Astro.egg-info
-│   ├── dependency_links.txt
-│   ├── PKG-INFO
-│   ├── SOURCES.txt
-│   └── top_level.txt
-├── data
-│   └── astro.sqlite3
-├── docs
-│   └── Antenas-ALMA-105.jpg
-├── __init__.py
-├── pre-commit-config.yaml
-├── README.md
-├── requirements.txt
-└── setup.py
-
-15 directories, 55 files
-
+http://127.0.0.1:8000
 ```
-</details>
+
+Interactive API documentation is available at:
+
+```text
+http://127.0.0.1:8000/docs
+```
 
 ---
 
-##  Contributions
+## 🛣️ Roadmap
 
-Contributions are welcome | Lets share ideas. Use the links on my profile to contact with me.
-
+- [x] Initial SDK architecture and Python packaging configuration (`pyproject.toml`).
+- [x] Geometric backtracking workflow for validation experiments.
+- [ ] Earth-centered inertial (ECI) coordinate-system support.
+- [ ] Concurrent polling for live synchronization with observatory schedules.
+- [ ] Uncertainty refinement using covariance information from historical observations.
+- [ ] Stable public API, documentation, and package release.
 
 ---
 
-##  Licence
+## 📄 License
 
-This project is licensed under the **MIT** License.
+This project is licensed under the [MIT License](LICENSE).
