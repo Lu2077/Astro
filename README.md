@@ -16,7 +16,7 @@ Its goal is to act as an integration and validation layer between public orbital
 The documentation is organized by responsibility to keep technical references focused and maintainable:
 
 - 📖 [**SDK & Core API Manual**](Astro/src/track/README.md) — Public interfaces, geometric engine contracts, and FastAPI endpoint specifications.
-- 📐 [**Scientific Research Notes**](docs/RESEARCH.md) — Orbital modeling, astrodynamics fundamentals, and the mathematical background behind the project.
+- 📐 [**Scientific Research Notes**](https://github.com/Lu2077/Astro/blob/main/docs/mvp_research_notes.md) — Orbital modeling, astrodynamics fundamentals, and the mathematical background behind the project.
 - 🗄️ [**Data Layer Guide**](Astro/db/README.md) — SQLite schema, migrations, and static seed data for `astro.sqlite3`.
 
 ---
@@ -111,8 +111,8 @@ http://127.0.0.1:8000/docs
 
 - [x] Initial SDK architecture and Python packaging configuration (`pyproject.toml`).
 - [x] Geometric backtracking workflow for validation experiments.
-- [ ] Earth-centered inertial (ECI) coordinate-system support.
-- [ ] Concurrent polling for live synchronization with observatory schedules.
+- [x] Earth-centered inertial (ECI) coordinate-system support.
+- [x] Concurrent polling for live synchronization with observatory schedules.
 - [ ] Uncertainty refinement using covariance information from historical observations.
 - [ ] Stable public API, documentation, and package release.
 
