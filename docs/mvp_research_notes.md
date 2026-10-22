@@ -2,7 +2,7 @@
 
 # 🛰️ Astro - Sat Tracking for Astronomers
 
-![Antenas ALMA](Astro/docs/Antenas-ALMA-105.jpg)
+![Antenas ALMA](docs/Antenas-ALMA-105.jpg)
 
 **Astro** is a project designed for astronomers that enables **real-time tracking and orbit prediction of artificial satellites**. Its primary objective is to assist in planning nighttime observations, preventing satellite passes from ruining astrophotography captures or scientific data.
 
